@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Coin Detection</title>
+</head>
+<script>
+    function findFakeCoin(fakeCoin, isHeavy )
+{
+    console.log("User input: " + fakeCoin + "isHeavy" + isHeavy)
+    const coins = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    function weigh(left, right) 
+    {
+        let leftWeight = 0;
+        let rightWeight = 0;
+
+        // Vypocitame vahu pre lavu stranu
+        for (let coin of left) // pre kazdu mincu v levej strane
+        {
+            if (coin === fakeCoin) // ak je minca falosna === znamena ze porovnavame hodnoty, nie referencie
+            {
+                leftWeight += isHeavy ? 2 : 0.5; // ak je falosna a je tazsia, pridame 2, inak nic ? = si tazky sa pyta
+            }
+            else
+            {
+                leftWeight += 1; // vaha kazdej mince je 1
+            }
+        }
+
+        // Vypocitame vahu pre pravu stranu
+        for (let coin of right) // pre kazdu mincu v pravej strane
+        {
+            if (coin === fakeCoin) // ak je minca falosna
+            {
+                rightWeight += isHeavy ? 2 : 0.5; // ak je falosna a je tazsia, pridame 2, inak nic ? = si tazky sa pyta
+            }
+            else
+            {
+                rightWeight += 1; // vaha kazdej mince je 1
+            }
+        }
+        
+        if (leftWeight > rightWeight)
+        {
+            return "left is heavier";
+        }
+        if (leftWeight < rightWeight)
+        {
+            return "right is heavier";
+        }
+        return "balanced";
+    }
+
+    console.log("=== Prve vazenie ===");
+    let vysledok1 = weigh([1, 2, 3, 4], [5, 6, 7, 8]);
+    console.log("Vysledok prveho vazenia [1,2,3,4] vs [5,6,7,8]: " + vysledok1);
+
+    console.log("=== Druhe vazenie ===");
+    let vysledok2 = weigh([1, 2, 5], [3, 4, 9, ]);
+    console.log("Vysledok druhe vazenia [1,2,5] vs [3,4,9,]: " + vysledok2);
+
+    console.log("=== Tretie vazenie ===");
+    let vysledok3 = weigh([1, 6], [2, 7]);
+    console.log("Vysledok tretieho vazenia [1,6] vs [2,7]: " + vysledok3);
+
+    document.getElementById("result").value = "Results: " + vysledok1 + " | " + vysledok2 + " | " + vysledok3;}
+
+    findFakeCoin(1, true)
+    
+</script>
+<body>
+    <h1>Fake Coin Detection Results:</h1>
+    <input type="text" id="result" style="width: 300px; height: 30px;" readonly>
+    <input type="checkbox" id="heavy" name="weight">
+    <label>Heavy</label>
+    <button style="width: 100px; height: 30px; display: block; margin-top: 20px;" onclick="findFakeCoin(1, true)">Find Fake Coin</button>
+</body>
+</html>
