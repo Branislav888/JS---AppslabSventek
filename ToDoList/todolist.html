@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="todolist.css">
+    <title>To Do List</title>
+</head>
+<!DOCTYPE html>
+<html lang="sk">
+<body>
+
+    <h2>Moje úlohy</h2>
+    <div id="counter">Počet úloh: 0</div>
+
+    <input id="vstup" placeholder="Zadaj úlohu...">
+    <button onclick="pridaj()">Pridať</button>
+
+    <ul id="zoznam"></ul>
+
+    <script>
+        const vstup = document.getElementById("vstup");
+        const zoznam = document.getElementById("zoznam");
+        const counter = document.getElementById("counter");
+
+
+        function aktualizujPocet() {
+            counter.textContent = "Počet úloh: " + zoznam.children.length;
+        }
+
+        function pridaj() {
+            if (vstup.value.trim() === "") return;
+
+            const li = document.createElement("li");
+
+            // Text úlohy
+            const span = document.createElement("span");
+            span.textContent = vstup.value;
+
+            // Tlačidlo Fajka (Vybavené)
+            const btnCheck = document.createElement("button");
+            btnCheck.textContent = "✓";
+            btnCheck.className = "btn-check";
+            btnCheck.onclick = () => {
+                span.classList.toggle("hotovo");
+            };
+
+            // Tlačidlo Vymazať
+            const btnDelete = document.createElement("button");
+            btnDelete.textContent = "x";
+            btnDelete.className = "btn-delete";
+            btnDelete.onclick = () => {
+                li.remove();
+                aktualizujPocet();
+            };
+
+            li.appendChild(span);
+            li.appendChild(btnCheck);
+            li.appendChild(btnDelete);
+            zoznam.appendChild(li);
+
+            vstup.value = "";
+            aktualizujPocet();
+        }
+
+        vstup.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") pridaj();
+        });
+    </script>
+
+</body>
+
+</html>
